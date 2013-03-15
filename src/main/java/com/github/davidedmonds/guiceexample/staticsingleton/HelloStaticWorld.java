@@ -14,7 +14,7 @@ public class HelloStaticWorld {
     private Shell shell;
 
     public HelloStaticWorld() {
-        display = new Display();
+        display = Display.getDefault();
         shell = new Shell(display);
         label = new Label(shell, SWT.NONE);
         label.setText(StaticRandomStringGetter.getInstance().getNextWord());

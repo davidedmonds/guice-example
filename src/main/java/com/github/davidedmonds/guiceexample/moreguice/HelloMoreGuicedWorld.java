@@ -1,4 +1,4 @@
-package com.github.davidedmonds.guiceexample.simpleguice;
+package com.github.davidedmonds.guiceexample.moreguice;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -12,17 +12,17 @@ import javax.inject.Inject;
 /**
  * This is an example class demonstrating a simple implementation of Guice
  */
-public class HelloGuicedWorld {
+public class HelloMoreGuicedWorld {
     private Label label;
     private Display display;
     private Shell shell;
 
     @Inject
-    HelloGuicedWorld(GuicedRandomStringGetter guicedRandomStringGetter) {
+    HelloMoreGuicedWorld(MoreGuicedRandomStringGetter moreGuicedRandomStringGetter) {
         display = Display.getDefault();
         shell = new Shell(display);
         label = new Label(shell, SWT.NONE);
-        label.setText(guicedRandomStringGetter.getNextWord());
+        label.setText(moreGuicedRandomStringGetter.getNextWord());
         shell.pack();
         label.pack();
         shell.open();
@@ -47,7 +47,7 @@ public class HelloGuicedWorld {
 
     public static void main(String[] args) {
         Injector injector = Guice.createInjector();
-        HelloGuicedWorld hello = injector.getInstance(HelloGuicedWorld.class);
+        HelloMoreGuicedWorld hello = injector.getInstance(HelloMoreGuicedWorld.class);
         hello.run();
         hello.dispose();
     }
