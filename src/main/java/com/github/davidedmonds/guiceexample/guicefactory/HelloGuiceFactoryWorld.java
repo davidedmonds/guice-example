@@ -1,4 +1,4 @@
-package com.github.davidedmonds.guiceexample.guiceprovider;
+package com.github.davidedmonds.guiceexample.guicefactory;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -11,19 +11,16 @@ import org.eclipse.swt.widgets.Shell;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-public class HelloGuiceProviderWorld {
-    private Label label;
+public class HelloGuiceFactoryWorld {
+    private RandomStringLabel label;
     private Display display;
     private Shell shell;
-    private Provider<RandomStringGetter> randomStringProvider;
 
     @Inject
-    HelloGuiceProviderWorld(Provider<RandomStringGetter> randomStringProvider) {
-        this.randomStringProvider = randomStringProvider;
+    HelloGuiceFactoryWorld(RandomStringLabelFactory randomStringLabelFactory) {
         display = Display.getDefault();
         shell = new Shell(display);
-        label = new Label(shell, SWT.NONE);
-        label.setText(randomStringProvider.get().getNextWord());
+        label = randomStringLabelFactory.create(shell);
         shell.pack();
         label.pack();
         shell.open();
@@ -42,10 +39,6 @@ public class HelloGuiceProviderWorld {
         label.dispose();
     }
 
-    public Label getLabel() {
-        return label;
-    }
-
     public static void main(String[] args) {
         if (args.length > 0 && args[0].equals("offline")) {
             launch(new OfflineModule());
@@ -55,9 +48,13 @@ public class HelloGuiceProviderWorld {
     }
 
     public static void launch(Module module) {
-        Injector injector = Guice.createInjector(module);
-        HelloGuiceProviderWorld hello = injector.getInstance(HelloGuiceProviderWorld.class);
+        Injector injector = Guice.createInjector(new CommonModule(), module);
+        HelloGuiceFactoryWorld hello = injector.getInstance(HelloGuiceFactoryWorld.class);
         hello.run();
         hello.dispose();
+    }
+
+    public RandomStringLabel getLabel() {
+        return label;
     }
 }
