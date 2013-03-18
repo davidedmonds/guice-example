@@ -9,9 +9,6 @@ import org.eclipse.swt.widgets.Shell;
 
 import javax.inject.Inject;
 
-/**
- * This is an example class demonstrating a simple implementation of Guice
- */
 public class HelloMoreGuicedWorld {
     private Label label;
     private Display display;
@@ -28,9 +25,16 @@ public class HelloMoreGuicedWorld {
         shell.open();
     }
 
+    public static void main(String[] args) {
+        Injector injector = Guice.createInjector(new MoreGuiceModule());
+        HelloMoreGuicedWorld hello = injector.getInstance(HelloMoreGuicedWorld.class);
+        hello.run();
+        hello.dispose();
+    }
+
     public void run() {
-        while(!shell.isDisposed()) {
-            if(!display.readAndDispatch()) {
+        while (!shell.isDisposed()) {
+            if (!display.readAndDispatch()) {
                 display.sleep();
             }
         }
@@ -43,12 +47,5 @@ public class HelloMoreGuicedWorld {
 
     public Label getLabel() {
         return label;
-    }
-
-    public static void main(String[] args) {
-        Injector injector = Guice.createInjector();
-        HelloMoreGuicedWorld hello = injector.getInstance(HelloMoreGuicedWorld.class);
-        hello.run();
-        hello.dispose();
     }
 }

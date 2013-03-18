@@ -4,9 +4,6 @@ import us.monoid.web.Resty;
 
 import java.io.IOException;
 
-/**
- * Static random string getting instance.
- */
 public class GuicedRandomStringGetter {
 
     public String getNextWord() {

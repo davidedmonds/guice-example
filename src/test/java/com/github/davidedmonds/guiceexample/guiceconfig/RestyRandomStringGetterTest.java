@@ -1,4 +1,4 @@
-package com.github.davidedmonds.guiceexample.moreguice;
+package com.github.davidedmonds.guiceexample.guiceconfig;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,16 +10,14 @@ import java.util.logging.Logger;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-public class MoreGuicedRandomStringGetterTest {
+public class RestyRandomStringGetterTest {
 
     private Resty resty;
     private TextResource resource;
     private Logger logger;
-    private MoreGuicedRandomStringGetter moreGuicedRandomStringGetter;
+    private RestyRandomStringGetter restyRandomStringGetter;
 
     @Before
     public void setUp() throws IOException {
@@ -30,28 +28,28 @@ public class MoreGuicedRandomStringGetterTest {
         when(resty.text(anyString())).thenReturn(resource);
         when(resource.toString()).thenReturn("TeN-ChArS!");
 
-        moreGuicedRandomStringGetter = new MoreGuicedRandomStringGetter(resty, logger);
+        restyRandomStringGetter = new RestyRandomStringGetter(resty, logger);
     }
 
     @Test
     public void getNextWordReturnsA10CharacterString() {
-        assertEquals(10, moreGuicedRandomStringGetter.getNextWord().trim().length());
+        assertEquals(10, restyRandomStringGetter.getNextWord().trim().length());
     }
 
     @Test
     public void getNextWordReturnsStringReturnedByResty() {
-        assertEquals("TeN-ChArS!", moreGuicedRandomStringGetter.getNextWord().trim());
+        assertEquals("TeN-ChArS!", restyRandomStringGetter.getNextWord().trim());
     }
 
     @Test
     public void getNextWordReturnsErrorStringIfRestyThrowsException() throws IOException {
         when(resty.text(anyString())).thenThrow(new IOException("IO"));
-        assertEquals("ERRORERROR", moreGuicedRandomStringGetter.getNextWord().trim());
+        assertEquals("ERRORERROR", restyRandomStringGetter.getNextWord().trim());
     }
 
     @Test
     public void getNextWordLogsALineToConsole() {
-        moreGuicedRandomStringGetter.getNextWord();
-        verify(logger).info("MoreGuicedRandomStringGetter says: Time to get another random string!");
+        restyRandomStringGetter.getNextWord();
+        verify(logger).info("RestyRandomStringGetter says: Time to get another random string!");
     }
 }
